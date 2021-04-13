@@ -1,0 +1,6 @@
+pytest
+sphinx
+sphinx-rtd-theme
+PyQt5
+PyQt5-stubs
+numba
