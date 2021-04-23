@@ -1,4 +1,4 @@
-# 2IS50 2019-2020 Homework Assignment 1 - Documentation
+# 2IS50 Homework Assignment 1 - Documentation
 
 ## Source files for documentation, using Sphinx
 

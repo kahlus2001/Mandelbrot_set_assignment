@@ -1,4 +1,4 @@
-# 2is50-2019-2020-ha-1
+# 2is50-ha-1
 
 * Authors: Lars van den Haak and Tom Verhoeff (TU/e)
 * Contributor 1: /replace by your full name/
@@ -11,7 +11,7 @@
 
 In mathematics, the Mandelbrot set is a fractal.
 This means you can zoom in indefinitely, and the same patterns will occur.
-In this assignment you will be making a Mandelbrot yourself.
+In this assignment, you will be making a Mandelbrot yourself.
 
 ![image](docs/source/images/mandelbrot.png)
 
@@ -28,8 +28,8 @@ which we already named. In the file `src/gui.py`, we provided a
 basic Graphical User Interface (GUI) such that we get results on the
 screen. It is made using PyQt5. Finally, the
 `src/main.py` file calls the functions defined in the other
-files, and has the main loop that keeps the interface running.
+files and has the main loop that keeps the interface running.
 
-**Note:** We only provided the function names, and arguments.
+**Note:** We only provided the function names and arguments for the first few exercises. For other exercises, you have to come up with your own functions.
 
 Check out Canvas for the actual assignment.

@@ -1,9 +1,9 @@
-.. 2is50-2019-2020-ha-1 documentation master file, created by
+.. 2is50-ha-1 documentation master file, created by
    sphinx-quickstart on Sun Apr 26 14:07:00 2020.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to 2is50-2019-2020-ha-1's documentation!
+Welcome to 2is50-ha-1's documentation!
 ================================================
 
 * Author: Lars van den Haak and Tom Verhoeff (TU/e)
@@ -13,7 +13,7 @@ Welcome to 2is50-2019-2020-ha-1's documentation!
 
 This software is made available under the terms of the MIT License.
 
-Copyright (c) 2020 - Eindhoven University of Technology, The Netherlands
+Copyright (c) 2021 - Eindhoven University of Technology, The Netherlands
 
 .. image:: images/mandelbrot.png
    :scale: 50 %

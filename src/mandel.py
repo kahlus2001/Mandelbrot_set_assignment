@@ -2,15 +2,9 @@
 
 Author: Lars van den Haak and Tom Verhoeff
 
-Copyright (c) 2020 - Eindhoven University of Technology, The Netherlands
+Copyright (c) 2021 - Eindhoven University of Technology, The Netherlands
 
 This software is made available under the terms of the MIT License.
-
-* Contributor 1: ...
-* TU/e ID number 1: ...
-* Contributor 2: ...
-* TU/e ID number 2: ...
-* Date: ...
 """
 from typing import Tuple, Sequence, TypeVar, Callable, Any, cast
 import math

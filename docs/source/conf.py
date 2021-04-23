@@ -17,9 +17,9 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 master_doc = 'index'
 
-project = '2is50-2019-2020-ha-1'
-copyright = '2020, Tom Verhoeff'
-author = 'Tom Verhoeff'
+project = '2is50-ha-1'
+copyright = '2021, Lars van den Haak and Tom Verhoeff'
+author = 'Lars van den Haak and Tom Verhoeff'
 
 # The full version, including alpha/beta/rc tags
 release = '1.0.0'
