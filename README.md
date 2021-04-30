@@ -1,11 +1,11 @@
 # 2is50-ha-1
 
 * Authors: Lars van den Haak and Tom Verhoeff (TU/e)
-* Contributor 1: /replace by your full name/
-* TU/e ID number 1: /replace by your TU/e ID number/
-* Contributor 2: /replace by your full name/
-* TU/e ID number 2: /replace by your TU/e ID number/
-* Date: /replace by date of first modification/
+* Contributor 1: Joris Wijnands
+* TU/e ID number 1: 1342576
+* Contributor 2: Mikolaj Kahl
+* TU/e ID number 2: 1553593
+* Date: 2021-04-30
 
 # The Mandelbrot set
 
