@@ -38,7 +38,16 @@ def mandel_seq(x: float, y: float, n: int = 100) -> Sequence[Point]:
     [(0.0, 0.0), (0.0, 0.0)]
     """
     # TODO Exercise c
-    return
+    u, v = 0, 0
+    m = 1
+    values = [(u, v)]
+    while m <= n:
+        u, v = x + u**2 - v**2, y + 2*u*v
+        values.append((u, v))
+        if (u**2 + v**2) > 4:
+            break
+        m+=1
+    return values
 
 
 def mandel_number(x: float, y: float, n: int = 100) -> int:
@@ -63,7 +72,7 @@ def mandel_number(x: float, y: float, n: int = 100) -> int:
     10
     """
     # TODO Exercise c
-    return
+    return len(mandel_seq(x,y,n))-1
 
 
 # Some colours
