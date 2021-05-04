@@ -88,11 +88,38 @@ blue: Color = (0, 0, 255)
 # For each pixel define its xy-coordinate
 def convert_pixel(px: int, py: int, width: int = 600, height: int = 600) -> Tuple[float, float]:
     # TODO Exercise d & e
-    return
+    """map x,y coordinate to pixels.
+
+    :examples:
+    >>> convert_pixel(600, 300)
+    (0.5, 0.0)
+    >>> convert_pixel(450, 0)
+    (0.0, -1.0)
+    """
+    x = (px / 600) * 2 - 1.5
+    y = (py / 600) * 2 - 1
+    return x, y
 
 
 # For each pixel define it's colour
 def color_mandel(px: int, py: int, width: int = 600, height: int = 600,
                  n: int = 100) -> Color:
     # TODO Exercise d & f
-    return
+    """Assign colour to pixel.
+
+    :examples:
+    >>> color_mandel(450, 300)
+    (0.0, 0.0, 0.0)
+
+    """
+    x,y = convert_pixel(px, py)
+    m = mandel_number(x,y,n)
+    if m == 1:
+        Color = (0, 0, 0)
+    elif m == n:
+        Color = (0, 0, 0)
+    else:
+        shade = math.log(m) / n * 255
+        Color = (0, 0, shade)
+
+    return Color
