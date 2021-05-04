@@ -110,6 +110,8 @@ def color_mandel(px: int, py: int, width: int = 600, height: int = 600,
     :examples:
     >>> color_mandel(450, 300)
     (0.0, 0.0, 0.0)
+    >>> color_mandel(150, 300)
+    (0.0, 0.0, 0.0)
 
     """
     x,y = convert_pixel(px, py)
@@ -119,7 +121,7 @@ def color_mandel(px: int, py: int, width: int = 600, height: int = 600,
     elif m == n:
         Color = (0, 0, 0)
     else:
-        shade = math.log(m) / n * 255
+        shade = m / n * 255
         Color = (0, 0, shade)
 
     return Color

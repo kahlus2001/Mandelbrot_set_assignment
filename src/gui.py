@@ -78,7 +78,7 @@ class GUI(QtWidgets.QMainWindow):
     def make_image(self) -> None:
         """Puts an image on screen created by function 'coloring'
         """
-        color_mandel(px, py)
+
         painter = QtGui.QPainter(self.canvas.pixmap())
 
 
@@ -86,8 +86,8 @@ class GUI(QtWidgets.QMainWindow):
         def coloring(px: int, py: int) -> Color:
             """Picks the correct coloring function.
             """
-            color_mandel(px, py)
-            return squares(px, py, self.first_color, self.second_color)
+
+            return color_mandel(px, py)
 
         for x in range(0, 600):
             for y in range(0, 600):
