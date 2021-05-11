@@ -112,6 +112,9 @@ class GUI(QtWidgets.QMainWindow):
         blue_button = QtWidgets.QPushButton('BLUE', self)
         layout.addWidget(blue_button)
 
+        blur_button = QtWidgets.QPushButton('Blur image', self)
+        layout.addWidget(blur_button)
+
         centre_button = QtWidgets.QPushButton('Add new centre point', self)
         layout.addWidget(centre_button)
 
@@ -120,12 +123,20 @@ class GUI(QtWidgets.QMainWindow):
         green_button.clicked.connect(self.green_color)
         white_button.clicked.connect(self.white_color)
         blue_button.clicked.connect(self.blue_color)
+        blur_button.clicked.connect(self.blur_image)
         centre_button.clicked.connect(self.show_new_window)
 
         self.w = None
+        self.blur = False
         # self.Exercise_j()
 
         self.choose_color = blue
+        self.update()
+
+    def blur_image(self) -> None:
+        """"Blur the image by taking the average of the surrounding pixels."""
+        self.blur = True
+        #imageblur[x, y] = (image[x - 1][y] + image[x][y] + image[x + 1][y]) / 3
         self.update()
 
     # save method
@@ -216,18 +227,25 @@ class GUI(QtWidgets.QMainWindow):
 
             return color_mandel(px, py)
 
-        for x in range(0, 600):
-            for y in range(0, 600):
-                (r, g, b) = coloring(x, y)
-                if self.choose_color == red:
-                    r = b
-                    b = 0
-                elif self.choose_color == green:
-                    g = b
-                    b = 0
-                elif self.choose_color == white:
-                    g = b
-                    r = b
-                painter.setPen(QColor(r, g, b))
-                painter.drawPoint(x, y)
+        if self.blur == True:
+            for x in range(0, 600):
+                for y in range(0, 600):
+                    x, y = (self.canvas.pixmap()[x - 1][y] + self.canvas.pixmap()[x][y] + self.canvas.pixmap()[x + 1][y]) / 3
+                    painter.drawPoint(x, y)
+        else:
+            for x in range(0, 600):
+                for y in range(0, 600):
+                    (r, g, b) = coloring(x, y)
+                    if self.choose_color == red:
+                        r = b
+                        b = 0
+                    elif self.choose_color == green:
+                        g = b
+                        b = 0
+                    elif self.choose_color == white:
+                        g = b
+                        r = b
+                    painter.setPen(QColor(r, g, b))
+                    painter.drawPoint(x, y)
         painter.end()
+
