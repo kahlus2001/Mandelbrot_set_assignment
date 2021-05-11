@@ -86,7 +86,7 @@ blue: Color = (0, 0, 255)
 
 
 # For each pixel define its xy-coordinate
-def convert_pixel(px: int, py: int, width: int = 600, height: int = 600) -> Tuple[float, float]:
+def convert_pixel(px: int, py: int, shift_x: int = -1.5, shift_y: int = -1, width: int = 600, height: int = 600) -> Tuple[float, float]:
     # TODO Exercise d & e
     """map x,y coordinate to pixels.
 
@@ -96,8 +96,8 @@ def convert_pixel(px: int, py: int, width: int = 600, height: int = 600) -> Tupl
     >>> convert_pixel(450, 0)
     (0.0, -1.0)
     """
-    x = (px / 600) * 2 - 1.5
-    y = (py / 600) * 2 - 1
+    x = (px / 600) * 2 + shift_x
+    y = (py / 600) * 2 + shift_y
     return x, y
 
 
