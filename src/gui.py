@@ -9,6 +9,8 @@ This software is made available under the terms of the MIT License.
 from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtGui import QColor
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QLineEdit
+
 from mandel import *
 import random
 
@@ -46,13 +48,22 @@ class GUI(QtWidgets.QMainWindow):
         self.canvas.setPixmap(QtGui.QPixmap(600, 600))
         layout.addWidget(self.canvas)
 
-        random_button = QtWidgets.QPushButton('Random colors!', self)
-        layout.addWidget(random_button)
-        # Connect the random_color function to a click event
-        random_button.clicked.connect(self.random_color)
-        self.first_color = green
-        self.second_color = blue
+        red_button = QtWidgets.QPushButton('RED', self)
+        layout.addWidget(red_button)
+        green_button = QtWidgets.QPushButton('GREEN', self)
+        layout.addWidget(green_button)
+        white_button = QtWidgets.QPushButton('WHITE', self)
+        layout.addWidget(white_button)
+        blue_button = QtWidgets.QPushButton('BLUE', self)
+        layout.addWidget(blue_button)
 
+        # Connect the random_color function to a click event
+        red_button.clicked.connect(self.red_color)
+        green_button.clicked.connect(self.green_color)
+        white_button.clicked.connect(self.white_color)
+        blue_button.clicked.connect(self.blue_color)
+
+        self.choose_color = blue
         self.update()
 
     def update(self) -> None:  # type: ignore
@@ -60,11 +71,28 @@ class GUI(QtWidgets.QMainWindow):
         self.make_image()
         super().update()
 
-    def random_color(self) -> None:
+    def red_color(self) -> None:
+        """Change the colors of the image into red.
+        """
+        self.choose_color = red
+        self.update()
+
+    def green_color(self) -> None:
         """Change the colors of the image into random colors.
         """
-        self.first_color = random.randint(0,255), random.randint(0,255), random.randint(0,255)
-        self.second_color = random.randint(0,255), random.randint(0,255), random.randint(0,255)
+        self.choose_color = green
+        self.update()
+
+    def white_color(self) -> None:
+        """Change the colors of the image into random colors.
+        """
+        self.choose_color = white
+        self.update()
+
+    def blue_color(self) -> None:
+        """Change the colors of the image into random colors.
+        """
+        self.choose_color = blue
         self.update()
 
     def mousePressEvent(self, event: QtGui.QMouseEvent) -> None:
@@ -92,6 +120,15 @@ class GUI(QtWidgets.QMainWindow):
         for x in range(0, 600):
             for y in range(0, 600):
                 (r, g, b) = coloring(x, y)
+                if self.choose_color == red:
+                    r = b
+                    b = 0
+                elif self.choose_color == green:
+                    g = b
+                    b = 0
+                elif self.choose_color == white:
+                    g = b
+                    r = b
                 painter.setPen(QColor(r, g, b))
                 painter.drawPoint(x, y)
         painter.end()
