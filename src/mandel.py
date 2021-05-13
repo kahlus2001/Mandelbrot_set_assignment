@@ -12,6 +12,22 @@ from numba import jit  # type: ignore
 
 #: The type of 2D points.
 Point = Tuple[float, float]
+lower_x = - 1.5
+upper_x = 0.5
+lower_y = - 1
+upper_y = 1
+
+
+def change_range(x_low, x_high, y_low, y_high) -> None:
+    """"Change the range of the Mandelbrot set."""
+    global lower_x
+    global upper_x
+    global lower_y
+    global upper_y
+    lower_x = x_low
+    upper_x = x_high
+    lower_y = y_low
+    upper_y = y_high
 
 
 def mandel_seq(x: float, y: float, n: int = 100) -> Sequence[Point]:
@@ -96,8 +112,16 @@ def convert_pixel(px: int, py: int, shift_x: float = -1.5, shift_y: float = -1, 
     >>> convert_pixel(450, 0)
     (0.0, -1.0)
     """
-    x = (px / 600) * 2 + shift_x
-    y = (py / 600) * 2 + shift_y
+
+    x_range = upper_x - lower_x
+    y_range = upper_y - lower_y
+
+    if shift_x != lower_x or shift_y != lower_y:
+        x = (px / 600) * x_range + shift_x
+        y = (py / 600) * y_range + shift_y
+    else:
+        x = (px / 600) * x_range + lower_x
+        y = (py / 600) * y_range + lower_y
     return x, y
 
 

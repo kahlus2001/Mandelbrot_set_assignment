@@ -33,6 +33,10 @@ def squares(px: int, py: int, c1: Color = green, c2: Color = blue) -> Color:
 
 x_coordinate = - 1.5
 y_coordinate = - 1
+x_low = - 1.5
+x_high = 0.5
+y_low = - 1
+y_high = 1
 
 
 class CentreWindow(QtWidgets.QWidget):
@@ -78,7 +82,7 @@ class GUI(QtWidgets.QMainWindow):
         """
         super().__init__()
         main = QtWidgets.QWidget()
-        layout = QtWidgets.QVBoxLayout()
+        layout = QtWidgets.QGridLayout()
         main.setLayout(layout)
         self.setCentralWidget(main)
 
@@ -100,23 +104,34 @@ class GUI(QtWidgets.QMainWindow):
         saveAction.triggered.connect(self.save)
 
         red_button = QtWidgets.QPushButton('RED', self)
-        layout.addWidget(red_button)
+        layout.addWidget(red_button, 1, 1)
         green_button = QtWidgets.QPushButton('GREEN', self)
-        layout.addWidget(green_button)
+        layout.addWidget(green_button, 1, 2)
         white_button = QtWidgets.QPushButton('WHITE', self)
-        layout.addWidget(white_button)
+        layout.addWidget(white_button, 1, 3)
         blue_button = QtWidgets.QPushButton('BLUE', self)
-        layout.addWidget(blue_button)
+        layout.addWidget(blue_button, 2, 1)
 
         blur_button = QtWidgets.QPushButton('Blur image', self)
-        layout.addWidget(blur_button)
+        layout.addWidget(blur_button, 2, 3)
 
-        self.shift_x = QLineEdit("Input centre X coordinate", self)
-        layout.addWidget(self.shift_x)
-        self.shift_y = QLineEdit("Input centre Y coordinate", self)
-        layout.addWidget(self.shift_y)
+        self.shift_x = QLineEdit("Centre X coordinate", self)
+        layout.addWidget(self.shift_x, 3, 1)
+        self.shift_y = QLineEdit("Centre Y coordinate", self)
+        layout.addWidget(self.shift_y, 3, 2)
         confirm_button = QtWidgets.QPushButton('Confirm centre point', self)
-        layout.addWidget(confirm_button)
+        layout.addWidget(confirm_button, 3, 3)
+
+        self.lower_x = QLineEdit("Lower X limit", self)
+        layout.addWidget(self.lower_x, 4, 1)
+        self.upper_x = QLineEdit("Upper X limit", self)
+        layout.addWidget(self.upper_x, 4, 2)
+        self.lower_y = QLineEdit("Lower Y limit", self)
+        layout.addWidget(self.lower_y, 5, 1)
+        self.upper_y = QLineEdit("Upper Y limit", self)
+        layout.addWidget(self.upper_y, 5, 2)
+        bounds_button = QtWidgets.QPushButton('Confirm new bounds', self)
+        layout.addWidget(bounds_button, 5, 3)
 
         # Connect the random_color function to a click event
         red_button.clicked.connect(self.red_color)
@@ -125,6 +140,7 @@ class GUI(QtWidgets.QMainWindow):
         blue_button.clicked.connect(self.blue_color)
         blur_button.clicked.connect(self.blur_image)
         confirm_button.clicked.connect(self.assign_x_y)
+        bounds_button.clicked.connect(self.change_bounds)
 
         self.w = None
         self.blur = False
@@ -132,12 +148,26 @@ class GUI(QtWidgets.QMainWindow):
         self.choose_color = blue
         self.update()
 
+    def change_bounds(self):
+        """"Change the range to show the Mandelbrot set."""
+        global x_low
+        global x_high
+        global y_low
+        global y_high
+        x_low = float(self.lower_x.text())
+        x_high = float(self.upper_x.text())
+        y_low = float(self.lower_y.text())
+        y_high = float(self.upper_y.text())
+        self.update()
+
     def assign_x_y(self):
         """"Assign users input to variable."""
         global x_coordinate
         global y_coordinate
-        x_coordinate = float(self.shift_x.text()) - 1.5
-        y_coordinate = float(self.shift_y.text()) - 1
+        global x_low
+        global y_low
+        x_coordinate = float(self.shift_x.text()) + x_low
+        y_coordinate = float(self.shift_y.text()) + y_low
         self.update()
 
     def blur_image(self) -> None:
@@ -162,29 +192,6 @@ class GUI(QtWidgets.QMainWindow):
         if self.w is None:
             self.w = CentreWindow()
         self.w.show()
-
-    def Exercise_j(self) -> None:
-
-        # creating a QLineEdit object
-        lower_x = QLineEdit("Input lower X limit", self)
-        number_validator = QtGui.QDoubleValidator(self)
-        lower_x.setValidator(number_validator)
-
-        lower_y = QLineEdit("Input lower Y limit", self)
-        lower_y.setValidator(number_validator)
-
-        # setting geometry
-        lower_x.setGeometry(80, 80, 150, 40)
-        lower_x.setGeometry(80, 80, 150, 40)
-
-        # adding action to the line edit when enter key is pressed
-        lower_x.returnPressed.connect(lambda: self.set_lower_x())
-
-        # method to do action
-        def set_lower_x(self) -> None:
-            """"Set lower X value."""
-            self.value_lower_x = lower_x.text()
-            self.update()
 
     def update(self) -> None:  # type: ignore
         """Draw a new image."""
@@ -228,6 +235,11 @@ class GUI(QtWidgets.QMainWindow):
         """
         global x_coordinate
         global y_coordinate
+        global x_low
+        global x_high
+        global y_low
+        global y_high
+        change_range(x_low, x_high, y_low, y_high)
         painter = QtGui.QPainter(self.canvas.pixmap())
 
         def coloring(px: int, py: int, x_shift: float = -1.5, y_shift: float = - 1) -> Color:
