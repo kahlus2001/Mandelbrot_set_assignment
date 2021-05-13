@@ -86,7 +86,7 @@ blue: Color = (0, 0, 255)
 
 
 # For each pixel define its xy-coordinate
-def convert_pixel(px: int, py: int, shift_x: int = -1.5, shift_y: int = -1, width: int = 600, height: int = 600) -> Tuple[float, float]:
+def convert_pixel(px: int, py: int, shift_x: float = -1.5, shift_y: float = -1, width: int = 600, height: int = 600) -> Tuple[float, float]:
     # TODO Exercise d & e
     """map x,y coordinate to pixels.
 
@@ -102,7 +102,7 @@ def convert_pixel(px: int, py: int, shift_x: int = -1.5, shift_y: int = -1, widt
 
 
 # For each pixel define it's colour
-def color_mandel(px: int, py: int, width: int = 600, height: int = 600,
+def color_mandel(px: int, py: int, shift_x: float, shift_y: float, width: int = 600, height: int = 600,
                  n: int = 100) -> Color:
     # TODO Exercise d & f
     """Assign colour to pixel.
@@ -114,7 +114,7 @@ def color_mandel(px: int, py: int, width: int = 600, height: int = 600,
     (0.0, 0.0, 0.0)
 
     """
-    x,y = convert_pixel(px, py)
+    x,y = convert_pixel(px, py, shift_x, shift_y)
     m = mandel_number(x,y,n)
     if m == 1:
         Color = (0, 0, 0)

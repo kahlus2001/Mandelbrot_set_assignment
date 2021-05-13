@@ -31,8 +31,8 @@ def squares(px: int, py: int, c1: Color = green, c2: Color = blue) -> Color:
     return c
 
 
-test: float = 1
-print(test)
+x_coordinate = - 1.5
+y_coordinate = - 1
 
 
 class CentreWindow(QtWidgets.QWidget):
@@ -48,30 +48,26 @@ class CentreWindow(QtWidgets.QWidget):
         self.label.setPixmap(QtGui.QPixmap(600, 600))
         layout.addWidget(self.label)
 
-        shift_x = QLineEdit("Input centre X coordinate", self)
-        shift_y = QLineEdit("Input centre Y coordinate", self)
-        number_validator = QtGui.QDoubleValidator(self)
-        shift_x.setValidator(number_validator)
-        shift_y.setValidator(number_validator)
+        self.shift_x = QLineEdit("Input centre X coordinate", self)
+        self.shift_y = QLineEdit("Input centre Y coordinate", self)
 
-        shift_x.setGeometry(80, 80, 150, 40)
-        shift_y.setGeometry(80, 120, 150, 40)
+        self.shift_x.setGeometry(650, 80, 150, 40)
+        self.shift_y.setGeometry(650, 120, 150, 40)
 
         confirm_button = QtWidgets.QPushButton('Confirm', self)
         layout.addWidget(confirm_button)
         confirm_button.clicked.connect(self.assign_x_y)
-        confirm_button.setGeometry(95, 200, 120, 60)
-        self.x_coordinate: float = 0
-        self.y_coordinate: float = 0
-        print("new window")
+        confirm_button.setGeometry(665, 200, 120, 60)
 
     def assign_x_y(self):
         """"Assign users input to variable."""
-        print("test")
-        self.x_coordinate = self.shift_x.text()
-        print("test2")
-        self.y_coordinate = self.shift_y.text()
+        global x_coordinate
+        global y_coordinate
+        x_coordinate = float(self.shift_x.text()) - 1.5
+        y_coordinate = float(self.shift_y.text()) - 1
         self.update()
+        self.close()
+
 
 class GUI(QtWidgets.QMainWindow):
     """A class where we make our Graphical User Interface based on PyQT
@@ -115,8 +111,12 @@ class GUI(QtWidgets.QMainWindow):
         blur_button = QtWidgets.QPushButton('Blur image', self)
         layout.addWidget(blur_button)
 
-        centre_button = QtWidgets.QPushButton('Add new centre point', self)
-        layout.addWidget(centre_button)
+        self.shift_x = QLineEdit("Input centre X coordinate", self)
+        layout.addWidget(self.shift_x)
+        self.shift_y = QLineEdit("Input centre Y coordinate", self)
+        layout.addWidget(self.shift_y)
+        confirm_button = QtWidgets.QPushButton('Confirm centre point', self)
+        layout.addWidget(confirm_button)
 
         # Connect the random_color function to a click event
         red_button.clicked.connect(self.red_color)
@@ -124,25 +124,33 @@ class GUI(QtWidgets.QMainWindow):
         white_button.clicked.connect(self.white_color)
         blue_button.clicked.connect(self.blue_color)
         blur_button.clicked.connect(self.blur_image)
-        centre_button.clicked.connect(self.show_new_window)
+        confirm_button.clicked.connect(self.assign_x_y)
 
         self.w = None
         self.blur = False
         # self.Exercise_j()
-
         self.choose_color = blue
+        self.update()
+
+    def assign_x_y(self):
+        """"Assign users input to variable."""
+        global x_coordinate
+        global y_coordinate
+        x_coordinate = float(self.shift_x.text()) - 1.5
+        y_coordinate = float(self.shift_y.text()) - 1
         self.update()
 
     def blur_image(self) -> None:
         """"Blur the image by taking the average of the surrounding pixels."""
         self.blur = True
-        #imageblur[x, y] = (image[x - 1][y] + image[x][y] + image[x + 1][y]) / 3
+        # imageblur[x, y] = (image[x - 1][y] + image[x][y] + image[x + 1][y]) / 3
         self.update()
 
     # save method
     def save(self):
         # selecting file path
-        filePath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save Image", "", "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
+        filePath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save Image", "",
+                                                            "PNG(*.png);;JPEG(*.jpg *.jpeg);;All Files(*.*) ")
         # if file path is blank return back
         if filePath == "":
             return
@@ -218,24 +226,26 @@ class GUI(QtWidgets.QMainWindow):
     def make_image(self) -> None:
         """Puts an image on screen created by function 'coloring'
         """
-
+        global x_coordinate
+        global y_coordinate
         painter = QtGui.QPainter(self.canvas.pixmap())
 
-        def coloring(px: int, py: int) -> Color:
+        def coloring(px: int, py: int, x_shift: float = -1.5, y_shift: float = - 1) -> Color:
             """Picks the correct coloring function.
             """
 
-            return color_mandel(px, py)
+            return color_mandel(px, py, x_shift, y_shift)
 
         if self.blur == True:
             for x in range(0, 600):
                 for y in range(0, 600):
-                    x, y = (self.canvas.pixmap()[x - 1][y] + self.canvas.pixmap()[x][y] + self.canvas.pixmap()[x + 1][y]) / 3
+                    x, y = (self.canvas.pixmap()[x - 1][y] + self.canvas.pixmap()[x][y] + self.canvas.pixmap()[x + 1][
+                        y]) / 3
                     painter.drawPoint(x, y)
         else:
             for x in range(0, 600):
                 for y in range(0, 600):
-                    (r, g, b) = coloring(x, y)
+                    (r, g, b) = coloring(x, y, x_coordinate, y_coordinate)
                     if self.choose_color == red:
                         r = b
                         b = 0
@@ -248,4 +258,3 @@ class GUI(QtWidgets.QMainWindow):
                     painter.setPen(QColor(r, g, b))
                     painter.drawPoint(x, y)
         painter.end()
-
